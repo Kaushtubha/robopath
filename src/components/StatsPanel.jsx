@@ -1,4 +1,4 @@
-export default function StatsPanel() {
+export default function StatsPanel({ obstacleCount = 0 }) {
   return (
     <section className="bg-slate-900 border border-slate-800 rounded-lg p-4 shadow-sm">
       <h2 className="text-sm font-semibold text-slate-200 uppercase tracking-wider mb-4">
@@ -13,9 +13,13 @@ export default function StatsPanel() {
           <span className="text-slate-400">Steps</span>
           <span className="font-mono text-slate-200">—</span>
         </div>
+        <div className="flex justify-between items-center text-sm py-1 border-b border-slate-800/60">
+          <span className="text-slate-400">Obstacles</span>
+          <span className="font-mono text-slate-200">{obstacleCount}</span>
+        </div>
         <div className="flex justify-between items-center text-sm py-1">
           <span className="text-slate-400">Status</span>
-          <span className="text-slate-200">Waiting for grid</span>
+          <span className="text-slate-200 text-xs sm:text-sm">Ready to navigate</span>
         </div>
       </div>
     </section>

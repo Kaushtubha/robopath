@@ -1,34 +1,59 @@
-import { useState } from 'react'
 import Cell from './Cell'
-import { createGrid, DEFAULT_GRID_SIZE } from '../utils/gridHelpers'
+import { DEFAULT_GRID_SIZE } from '../utils/gridHelpers'
 
-export default function GridBoard({ size = DEFAULT_GRID_SIZE }) {
-  const [grid] = useState(() => createGrid(size, size))
-
-  const handleCellClick = (row, col) => {
-    // Phase 4: handle start, goal, and obstacles
-  }
-
+export default function GridBoard({
+  grid,
+  size = DEFAULT_GRID_SIZE,
+  onCellClick,
+  onCellMouseDown,
+  onCellMouseEnter,
+  onMouseUp,
+}) {
   return (
-    <div className="w-full flex items-center justify-center p-4">
-      <div className="w-full max-w-[480px] rounded-lg border border-slate-700 p-4 bg-slate-900/50 shadow-sm">
+    <div className="w-full flex flex-col items-center justify-center p-4">
+      <div
+        className="w-full max-w-[480px] rounded-lg border border-slate-700 p-4 bg-slate-900/50 shadow-sm"
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+      >
         <div
-          className="w-full max-w-[480px] aspect-square grid"
+          className="w-full max-w-[480px] aspect-square grid border border-slate-800 rounded overflow-hidden"
           style={{
             gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
           }}
         >
-          {grid.map((row) =>
-            row.map((cell) => (
-              <Cell
-                key={`${cell.row}-${cell.col}`}
-                row={cell.row}
-                col={cell.col}
-                isObstacle={cell.isObstacle}
-                onClick={handleCellClick}
-              />
-            ))
-          )}
+          {grid &&
+            grid.map((row) =>
+              row.map((cell) => (
+                <Cell
+                  key={`${cell.row}-${cell.col}`}
+                  row={cell.row}
+                  col={cell.col}
+                  isStart={cell.isStart}
+                  isGoal={cell.isGoal}
+                  isObstacle={cell.isObstacle}
+                  onClick={onCellClick}
+                  onMouseDown={onCellMouseDown}
+                  onMouseEnter={onCellMouseEnter}
+                />
+              ))
+            )}
+        </div>
+
+        {/* Legend */}
+        <div className="mt-3 flex items-center justify-center gap-4 text-xs text-slate-400 select-none">
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-emerald-500 inline-block" />
+            <span>Start</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-rose-500 inline-block" />
+            <span>Goal</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-slate-600 inline-block" />
+            <span>Obstacle</span>
+          </div>
         </div>
       </div>
     </div>
